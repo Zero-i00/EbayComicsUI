@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Control Panel</title>
+</head>
+<body>
+    <h1>Dashboard</h1>
+    <h2>Create section</h2>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="add">
+    </form>
+
+    <h2>Added comics:</h2>
+
+    {% for item in snipe_items %}
+    <span style="float:left;">
+    <form action="{% url 'snipe-edit' pk=item.pk %}" method="POST">
+        {% csrf_token %} {{ item.gocollect_link }} <input type="submit" value="edit"></form>
+    </span>
+    <form action="{% url 'snipe-delete' pk=item.pk %}" method="POST">
+        {% csrf_token %}
+         <input type="submit" value="delete">
+    </form>
+    {% endfor %}
+</body>
+</html>
