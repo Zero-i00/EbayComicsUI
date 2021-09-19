@@ -32,36 +32,54 @@
 						</div>
 					</div>
 				</nav>
-<body>
+
     <div class="container-fluid">
         <div class="col col-md-3">
             <div class="panel-group" id="accordion">
               <div class="panel panel-default">
                 <div class="panel-heading">
                   <h4 class="panel-title">
-                          <h2>Edit section</h2>
-                   {% if 'dashboard.rw' in user.get_all_permissions %}
-                    <form action="" method="POST">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <span class="input-group-btn">
-                        <input type="submit" value="save edits" class="btn btn-success">
-                        </span>
-                    </form>
-                        {% endif %}
+                      <h2>Login</h2>
+                      <form method="post" action="{% url 'login' %}">
+                          {% csrf_token %}
+                          <div>
+                              <tr>
+                                  <td>{{ form.username.label_tag }}</td>
+                                  <td>{{ form.username }}</td>
+                              </tr>
+                          </div>
+                          <div>
+                            <tr>
+                                <td>{{ form.password.label_tag }}</td>
+                                <td>{{ form.password }}</td>
+                            </tr>
+                          </div>
+                          <div>
+                              <span class="input-group-btn">
+                                  <input type="submit" value="login" class="btn btn-primary"/>
+                                  <input type="hidden" name="next" value="{{ next }}" class="btn btn-primary"/>
+                              </span>
+                          </div>
+                      </form>
                   </h4>
               </div>
             </div>
-            </div>
+        </div>
         </div>
     </div>
-<!--    <h2>Edit section</h2>-->
-<!--   {% if user.is_authenticated %}-->
-<!--    <form action="" method="POST">-->
-<!--        {% csrf_token %}-->
-<!--        {{ form.as_p }}-->
-<!--        <input type="submit" value="save edits">-->
-<!--    </form>-->
-<!--        {% endif %}-->
-</body>
 </html>
+{% block content %}
+
+{% if form.errors %}
+    {{ form.errors }}
+  <p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+{% if next %}
+  {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+  {% endif %}
+{% endif %}
+
+{% endblock %}

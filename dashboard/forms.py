@@ -7,11 +7,10 @@ class SnipeForm(forms.ModelForm):
     class Meta:
         model = SnipeModel
         fields = [
-            'ebay_item_number',
             'gocollect_link',
-            'max_percent_of_price',
-            'min_percent_of_price',
+            'price_percentage',
+            'floor_price',
             'lowest_grade',
             'highest_grade',
-            'negative_words'
+            'negative_words',
         ]

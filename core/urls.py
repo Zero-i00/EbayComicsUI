@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from dashboard.views import dashboard_control, delete_snipe, edit_snipe
 
@@ -23,4 +23,5 @@ urlpatterns = [
     path('dashboard/', dashboard_control, name='dashboard-control'),
     path('dashboard/delete/<int:pk>', delete_snipe, name='snipe-delete'),
     path('dashboard/edit/<int:pk>', edit_snipe, name='snipe-edit'),
+    path('dashboard/', include('django.contrib.auth.urls')),
 ]

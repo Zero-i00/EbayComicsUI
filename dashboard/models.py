@@ -1,4 +1,12 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+
+def Reverse(tuples):
+    new_tup = tuples[::-1]
+    return new_tup
+
+
 
 GRADES = (
     ('0.5', '0.5'),
@@ -26,21 +34,27 @@ GRADES = (
     ('9.8', '9.8'),
 )
 
+PERMISSION_LEVEL = (
+    ('r', 'Readonly'),
+    ('rw', 'Read+Write'),
+)
 
-def Reverse(tuples):
-    new_tup = tuples[::-1]
-    return new_tup
+class User(AbstractUser):
+
+    class Meta:
+        # permissions = models.CharField(max_length=255, choices=PERMISSION_LEVEL, null=False, blank=False)
+        permissions = PERMISSION_LEVEL
 
 
 # Create your models here.
 class SnipeModel(models.Model):
-    ebay_item_number = models.CharField(null=False, blank=False, max_length=255)
+    title = models.CharField(default='finding title...', null=True, blank=True, max_length=255)
     gocollect_link = models.URLField(null=False, blank=False)
-    max_percent_of_price = models.IntegerField(null=False)
-    min_percent_of_price = models.IntegerField(null=True, blank=False, default=85)
+    price_percentage = models.IntegerField(null=False)
+    floor_price = models.IntegerField(null=True, blank=False, default=85)
     lowest_grade = models.CharField(default='0', choices=Reverse(GRADES), blank=False, null=False, max_length=255)
     highest_grade = models.CharField(default='10',choices=Reverse(GRADES), blank=False, null=False, max_length=255)
     negative_words = models.CharField(blank=True, null=True, max_length=255)
 
     def __str__(self):
-        return(self.pk)
+        return(str(self.pk))
